@@ -2,16 +2,7 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { CallLog, Staff, Student } from '../lib/types';
-
-const weeklyData = [
-  { name: 'Mon', calls: 40, resolved: 30 },
-  { name: 'Tue', calls: 55, resolved: 48 },
-  { name: 'Wed', calls: 32, resolved: 25 },
-  { name: 'Thu', calls: 80, resolved: 65 },
-  { name: 'Fri', calls: 60, resolved: 55 },
-  { name: 'Sat', calls: 20, resolved: 18 },
-  { name: 'Sun', calls: 15, resolved: 12 },
-];
+import TwilioLiveLogs from './TwilioLiveLogs';
 
 interface DashboardProps {
   logs: CallLog[];
@@ -20,17 +11,30 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ logs, staff, students }) => {
+  // Process real data for the chart
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const chartData = days.map(day => ({ name: day, calls: 0, resolved: 0 }));
+
+  logs.forEach(log => {
+    const date = new Date(log.timestamp);
+    const dayIndex = date.getDay();
+    chartData[dayIndex].calls += 1;
+    if (log.type === 'AI Resolved') {
+      chartData[dayIndex].resolved += 1;
+    }
+  });
+
   const aiResolvedCount = logs.filter(l => l.type === 'AI Resolved').length;
   const forwardedCount = logs.filter(l => l.type === 'Forwarded').length;
-  const totalCalls = logs.length + 120; // adding base number for visual impact
+  const totalCalls = logs.length;
 
   return (
     <div className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard icon="fa-phone-volume" label="Total Interactions" value={totalCalls.toString()} trend="+4.2%" color="bg-indigo-600" />
-        <StatCard icon="fa-robot" label="AI Autopilot" value={`${Math.round((aiResolvedCount / logs.length) * 100 || 0)}%`} trend="+12%" color="bg-emerald-500" />
+        <StatCard icon="fa-phone-volume" label="Real Interactions" value={totalCalls.toString()} trend="Syncing" color="bg-indigo-600" />
+        <StatCard icon="fa-robot" label="AI Autopilot" value={`${totalCalls > 0 ? Math.round((aiResolvedCount / totalCalls) * 100) : 0}%`} trend="Automated" color="bg-emerald-500" />
         <StatCard icon="fa-users" label="Staff Online" value={staff.filter(s => s.status === 'available').length.toString()} trend="Live" color="bg-amber-500" />
-        <StatCard icon="fa-user-graduate" label="Total Students" value={students.length.toString()} trend="Sync" color="bg-blue-500" />
+        <StatCard icon="fa-user-graduate" label="Registered Students" value={students.length.toString()} trend="Database" color="bg-blue-500" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -47,7 +51,7 @@ const Dashboard: React.FC<DashboardProps> = ({ logs, staff, students }) => {
           </div>
           <div className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={weeklyData}>
+              <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="colorCalls" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#6366f1" stopOpacity={0.1}/>
@@ -86,7 +90,8 @@ const Dashboard: React.FC<DashboardProps> = ({ logs, staff, students }) => {
                   </div>
                   <div className="mt-3">
                     <p className="text-sm font-bold text-slate-800">{log.caller}</p>
-                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 italic">"{log.transcriptSnippet}"</p>
+                    <p className="text-[10px] text-slate-400 mt-1">{new Date(log.timestamp).toLocaleString()}</p>
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 italic">{log.transcriptSnippet}</p>
                   </div>
                   {log.assignedStaff && (
                     <div className="mt-3 pt-3 border-t border-slate-50 flex items-center gap-2">

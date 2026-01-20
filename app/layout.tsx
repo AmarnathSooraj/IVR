@@ -1,10 +1,16 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "../context/AppContext";
 import RootLayoutClient from "./layout-client";
 
+const inter = Inter({ 
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
 export const metadata: Metadata = {
-  title: "EduCall AI: Smart IVR for Colleges",
+  title: "Veda CEV: Smart IVR for Colleges",
   description: "An AI-powered Interactive Voice Response (IVR) SaaS for college staff to manage student queries, automate responses using Gemini Live, and streamline call forwarding.",
 };
 
@@ -18,7 +24,7 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
       </head>
-      <body className="bg-slate-50 text-slate-900">
+      <body className={`${inter.variable} font-sans bg-slate-50 text-slate-900`}>
         <AppProvider>
           <RootLayoutClient>
             {children}

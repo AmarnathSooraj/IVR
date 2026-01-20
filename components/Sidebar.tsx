@@ -20,7 +20,7 @@ export const Sidebar: React.FC = () => {
           <i className="fas fa-graduation-cap"></i>
         </div>
         <div>
-          <h1 className="text-white font-black text-lg leading-tight tracking-tight">EduCall AI</h1>
+          <h1 className="text-white font-black text-lg leading-tight tracking-tight">Veda CEV</h1>
           <p className="text-[9px] uppercase tracking-[0.2em] font-black text-indigo-400 opacity-80">SaaS Platform</p>
         </div>
       </div>
