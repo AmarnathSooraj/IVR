@@ -1,8 +1,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenAI, Modality, LiveServerMessage } from '@google/genai';
-import { decode, encode, decodeAudioData, createBlob } from '../services/audioUtils';
-import { Staff, Student, CallLog } from '../types';
+import { decode, encode, decodeAudioData, createBlob } from '../lib/audioUtils';
+import { Staff, Student, CallLog } from '../lib/types';
 
 interface CallSimulatorProps {
   staffList: Staff[];

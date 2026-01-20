@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Student } from '../types';
+import { Student } from '../lib/types';
 
 interface StudentListProps {
   students: Student[];

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { CallLog, Staff, Student } from '../types';
+import { CallLog, Staff, Student } from '../lib/types';
 
 const weeklyData = [
   { name: 'Mon', calls: 40, resolved: 30 },

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Staff } from '../types';
+import { Staff } from '../lib/types';
 
 interface StaffListProps {
   staff: Staff[];

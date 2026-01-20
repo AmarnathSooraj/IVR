@@ -1,4 +1,3 @@
-
 import { Staff, Student, CallLog } from './types';
 
 export const INITIAL_STAFF: Staff[] = [

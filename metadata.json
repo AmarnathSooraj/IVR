@@ -1,8 +1,0 @@
-
-{
-  "name": "EduCall AI: Smart IVR for Colleges",
-  "description": "An AI-powered Interactive Voice Response (IVR) SaaS for college staff to manage student queries, automate responses using Gemini Live, and streamline call forwarding.",
-  "requestFramePermissions": [
-    "microphone"
-  ]
-}
